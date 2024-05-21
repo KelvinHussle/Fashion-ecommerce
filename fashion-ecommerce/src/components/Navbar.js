@@ -1,81 +1,112 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import Logo from './images/logo.png';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import ShoppingBagOutlinedIcon from '@mui/icons-material/ShoppingBagOutlined';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
+import CloseIcon from '@mui/icons-material/Close';
+import MenuIcon from '@mui/icons-material/Menu';
 
 const Navbar = () => {
+  const [menu, setMenu] = useState(false);
+
+  const[search, setSearch] = useState(false);
+  const handleSearch = ()=>{
+    setSearch(!search);
+  }
+  const handleMenu = () => {
+    setMenu(!menu);
+  };
+
   return (
-    <nav className="bg-black mx-auto max-w-full px-2 sm:px-6 lg:px-8 overflow-x-hidden">
-      <div className='h-16 flex justify-between px-6 relative'>
+    <nav className="bg-white mx-auto max-w-full border-2 divide-y divide-gray-200 px-2 sm:px-6 lg:px-8 overflow-x-hidden">
+      <div className='h-16 flex justify-between items-center px-6 relative'>
+        {/* Mobile Menu Toggle */}
+        <button onClick={handleMenu} className='md:hidden'>
+          {menu ? <CloseIcon /> : <MenuIcon />}
+        </button>
 
-            {/* Your logo or brand */}
-<div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-            <div className="flex-shrink-0 flex items-center">
-              <Link to="/" className="text-white">
-                Brand Logo
-              </Link>
-            </div>
+        {/* Your logo or brand */}
+        <div className="flex-shrink-0 mx-4">
+          <Link to="/" className="text-grey">
+            <img src={Logo}/>
+          </Link>
+        </div>
 
-         
+        
 
-            {/* Navigation links */}
+        {/* Desktop Navigation Links */}
+        <div className="hidden md:flex items-center space-x-4">
+          <Link to="/" className='text-gray-400 px-4'>
+            Home
+          </Link>
+          <Link to="/about" className='text-gray-400 px-4'>
+            About
+          </Link>
+          <Link to="/products" className='text-gray-400 px-4'>
+            Products
+          </Link>
+        </div>
 
-            <div className="flex items-center hidden sm:-my-px sm:ml-6 sm:flex">
-              <Link to="/" className='text-white px-4'>
-                Home
-              </Link>
-              <Link to="/about" className='text-white px-4' >
-                About
-              </Link>
-              <Link to="/products" className='text-white px-4'>
-                Products
-              </Link>
-            </div>
-</div>
+        {/* Search Bar */}
+
+  {search &&(
+<div className='w-1/2 h-8 bg-white rounded-full border-2 border-gray-200 flex items-center sm:w-1/4'>
+          
+            <input
+              type="text"
+              name="search"
+              id="search"
+              className="flex-1 rounded-full bg-transparent py-1.5 pl-4 text-gray-900 placeholder:text-gray-400 focus:ring-0 text-sm sm:leading-6"
+              placeholder="Search"
+            />
+    </div>
+  )}            
+     <button className="flex items-center justify-center text-white" onClick={handleSearch}>
+    {search ? <CloseIcon sx={{ color: 'grey' }}/> :<SearchOutlinedIcon sx={{ color: 'grey' }}/>}
+  </button>
 
 
-{/*Search Icons */}
-<div className='flex items-center ml-8'>
-            <div className='w-50 h-8 bg-white rounded-full flex items-center sm:mr-10 sm:w-70'>
-                <input
-                    type="text"
-                    name="search"
-                    id="search"
-                    className="flex-1 rounded-full bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 text-start text-sm sm:leading-6"
-                    placeholder="What are you looking for?"
-                  />
+        {/* Desktop Icons */}
+        <div className="hidden md:flex items-center space-x-4">
+          <button className="text-gray-400 px-6">
+            <FavoriteBorderIcon sx={{ color: 'grey' }} />
+          </button>
+          <button className="text-gray-400 px-6">
+            <ShoppingCartIcon sx={{ color: 'grey' }} />
+          </button>
+          <button className="text-gray-400 px-6">
+            <AccountCircleOutlinedIcon sx={{ color: 'grey' }} />
+          </button>
+        </div>
+      </div>
 
-<button className="w-10 h-6 bg-black rounded-full items-center text-white mr-2 sm:w-20">
-              <SearchOutlinedIcon/>
+      {/* Mobile Menu */}
+      {menu && (
+        <div className="md:hidden px-2 pt-2 pb-3 space-y-1">
+          <Link to="/" className='block text-gray-400 px-4 py-2'>
+            Home
+          </Link>
+          <Link to="/about" className='block text-gray-400 px-4 py-2'>
+            About
+          </Link>
+          <Link to="/products" className='block text-gray-400 px-4 py-2'>
+            Products
+          </Link>
+          <div className="flex justify-around pt-4">
+            <button className="text-gray-400">
+              <FavoriteBorderIcon sx={{ color: 'grey' }} />
             </button>
-            </div>
-          <div className="flex items-center ">
-</div>
-
-{/*Other Icons */}
-<div className='flex items-center invisible sm:visible'>
-            <div className='flex items-center mx-6 hidden sm:-my-px sm:ml-6 sm:flex'>
-<button className="text-white ">
-            <FavoriteBorderIcon/>
+            <button className="text-gray-400">
+              <ShoppingCartIcon sx={{ color: 'grey' }} />
             </button>
-            <div className='rounded-full flex items-center bg-white p-1'><p className='text-sm'>0</p></div>
-            </div>
-
-                        <div className='flex items-center mx-6'>
-<button className="text-white ">
-            <ShoppingBagOutlinedIcon/>
-            </button>
-            <div className='rounded-full flex items-center bg-white p-1'><p className='text-sm'>0</p></div>
-            </div>
-            
-            <button className="text-white mx-6">
-                <AccountCircleOutlinedIcon/>
+            <button className="text-gray-400">
+              <AccountCircleOutlinedIcon sx={{ color: 'grey' }} />
             </button>
           </div>
-          </div>
-          </div>
+        </div>
+      )}
     </nav>
   );
 };
